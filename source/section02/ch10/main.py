@@ -25,13 +25,16 @@ if __name__ == '__main__':
 
     root = tk.Tk()
 
+    root.configure(bg="gray12")
+    calibri_font = ("Calibri", 11, "normal")
+
     i = 0
     j = 0
 
     for contract in bitmex_contracts:
         
-        label_widget = tk.Label(root, text=contract)
-        label_widget.grid(row=i, column=j)
+        label_widget = tk.Label(root, text=contract, bg="gray12", fg="SteelBlue1", width=13, font=calibri_font)
+        label_widget.grid(row=i, column=j, sticky="ew")
 
         if i == 4:
             j += 1
