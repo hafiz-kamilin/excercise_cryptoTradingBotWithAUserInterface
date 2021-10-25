@@ -24,8 +24,8 @@ if __name__ == '__main__':
     bitmex_contracts = get_contracts()
 
     root = tk.Tk()
-
     root.configure(bg="gray12")
+    
     calibri_font = ("Calibri", 11, "normal")
 
     i = 0
