@@ -1,5 +1,6 @@
 import logging
 import requests
+import time
 
 from urllib.parse import urlencode
 
@@ -137,5 +138,17 @@ class BinanceFuturesClient:
         data['signature'] = self.generate_signature(data)
 
         order_status = self.make_request("DELETE", "/fapi/v1/order", data)
+
+        return order_status
+
+    def get_order_status(self, symbol, order_id):
+
+        data = dict()
+        data['timestamp'] = int(time.time() * 1000)
+        data['symbol'] = symbol
+        data['orderId'] = order_id
+        data['signature'] = self.generate_signature(data)
+
+        order_status = self.make_request("GET", "/fapi/v1/order", data)
 
         return order_status
