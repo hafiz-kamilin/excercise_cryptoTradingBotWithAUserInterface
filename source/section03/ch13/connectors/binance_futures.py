@@ -1,6 +1,11 @@
 import logging
 import requests
 
+from urllib.parse import urlencode
+
+import hmac
+import hashlib
+
 logger = logging.getLogger()
 
 class BinanceFuturesClient:
