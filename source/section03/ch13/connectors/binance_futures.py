@@ -89,3 +89,42 @@ class BinanceFuturesClient:
                 self.prices[symbol]['ask'] = float(ob_data['askPrice'])
 
         return self.prices[symbol]
+
+    def get_balances(self):
+
+        data = dict()
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self.generate_signature(data)
+
+        balances = dict()
+
+        account_data = self.make_request("GET", "/fapi/v1/account", data)
+
+        if account_data is not None:
+            for a in account_data['assets']:
+                balances[a['asset']] = a
+
+        return balances
+
+    def place_order(self, symbol, side, quantity, order_type, price=None, tif=None):
+
+        data = dict()
+        data['symbol'] = symbol
+        data['side'] = side
+        data['quantity'] = quantity
+        data['type'] = order_type
+
+        if price is not None:
+            data['price'] = price
+
+        if tif is not None:
+            data['timeInForce'] = tif
+
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self.generate_signature(data)
+
+        order_status = self.make_request("POST", "/fapi/v1/order", data)
+
+        return order_status
+
+
