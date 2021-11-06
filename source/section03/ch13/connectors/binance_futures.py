@@ -127,4 +127,15 @@ class BinanceFuturesClient:
 
         return order_status
 
+    def cancel_order(self, symbol, order_id):
 
+        data = dict()
+        data['orderId'] = order_id
+        data['symbol'] = symbol
+
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self.generate_signature(data)
+
+        order_status = self.make_request("DELETE", "/fapi/v1/order", data)
+
+        return order_status
