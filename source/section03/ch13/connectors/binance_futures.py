@@ -34,6 +34,10 @@ class BinanceFuturesClient:
 
         if method == "GET":
             response = requests.get(self.base_url + endpoint, params=data)
+        elif method == "POST":
+            response = requests.post(self.base_url + endpoint, params=data, headers=self.headers)
+        elif method == "DELETE":
+            response = requests.delete(self.base_url + endpoint, params=data, headers=self.headers)
         else:
             raise ValueError
 
