@@ -10,16 +10,23 @@ logger = logging.getLogger()
 
 class BinanceFuturesClient:
 
-    def __init__(self, testnet):
+    def __init__(self, public_key, secret_key, testnet):
 
         if testnet:
             self.base_url = "https://testnet.binancefuture.com"
         else:
             self.base_url = "https://fapi.binance.com"
 
+        self.public_key = public_key
+        self.secret_key = secret_key
+
+        self.headers = {'X-MBX-APIKEY': self.public_key}
+
         self.prices = dict()
 
         logger.info("Binance Futures Client successfully initialized")
+
+
 
     def make_request(self, method, endpoint, data):
 
