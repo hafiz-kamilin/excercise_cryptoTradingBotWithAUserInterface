@@ -7,7 +7,9 @@ from urllib.parse import urlencode
 import hmac
 import hashlib
 
+
 logger = logging.getLogger()
+
 
 class BinanceFuturesClient:
 
@@ -28,13 +30,13 @@ class BinanceFuturesClient:
         logger.info("Binance Futures Client successfully initialized")
 
     def generate_signature(self, data):
-        
+
         return hmac.new(self.secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest()
 
     def make_request(self, method, endpoint, data):
 
         if method == "GET":
-            response = requests.get(self.base_url + endpoint, params=data)
+            response = requests.get(self.base_url + endpoint, params=data, headers=self.headers)
         elif method == "POST":
             response = requests.post(self.base_url + endpoint, params=data, headers=self.headers)
         elif method == "DELETE":
@@ -52,6 +54,7 @@ class BinanceFuturesClient:
     def get_contracts(self):
 
         exchange_info = self.make_request("GET", "/fapi/v1/exchangeInfo", None)
+
         contracts = dict()
 
         if exchange_info is not None:
@@ -66,8 +69,9 @@ class BinanceFuturesClient:
         data['symbol'] = symbol
         data['interval'] = interval
         data['limit'] = 1000
-        
+
         raw_candles = self.make_request("GET", "/fapi/v1/klines", data)
+
         candles = []
 
         if raw_candles is not None:
@@ -77,7 +81,7 @@ class BinanceFuturesClient:
         return candles
 
     def get_bid_ask(self, symbol):
-        
+
         data = dict()
         data['symbol'] = symbol
         ob_data = self.make_request("GET", "/fapi/v1/ticker/bookTicker", data)
@@ -108,7 +112,7 @@ class BinanceFuturesClient:
         return balances
 
     def place_order(self, symbol, side, quantity, order_type, price=None, tif=None):
-
+        
         data = dict()
         data['symbol'] = symbol
         data['side'] = side
