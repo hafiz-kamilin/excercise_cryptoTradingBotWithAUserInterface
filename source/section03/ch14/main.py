@@ -27,10 +27,6 @@ if __name__ == '__main__':
         "YOUR_SECRET_KEY_GOES_HERE",
         True
     )
-    print(binance.get_balances())
-    print(binance.place_order("BTCUSDT", "BUY", 0.01, "LIMIT", 20000, "GTC"))
-    print(binance.get_order_status("BTCUSDT", 2712672670))
-    print(binance.cancel_order("BTCUSDT", 2712672670))
 
     root = tk.Tk()
     root.mainloop()
